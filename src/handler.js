@@ -1,8 +1,8 @@
-'use strict';
+'use strict'
 
-console.log('Loading function');
+console.log('Loading function')
 
-const REQUEST = require('request');
+const REQUEST = require('request')
 
 //
 // Configuration
