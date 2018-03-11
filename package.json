@@ -4,7 +4,7 @@
   "description": "Serverless webpack example using Typescript",
   "main": "handler.js",
   "scripts": {
-    "dev": "sls offline start"
+    "deploy": "yarn sls deploy"
   },
   "devDependencies": {
     "@types/aws-lambda": "0.0.22",
