@@ -4,7 +4,7 @@
   "description": "A simple SLS app for my trello board",
   "main": "handler.ts",
   "scripts": {
-    "deploy": "yarn sls deploy"
+    "deploy": "yarn sls deploy -v"
   },
   "devDependencies": {
     "@types/aws-lambda": "0.0.22",
