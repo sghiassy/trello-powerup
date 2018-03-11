@@ -8,6 +8,9 @@ plugins:
 provider:
   name: aws
   runtime: nodejs6.10
+  stage: prod
+  region: "${self:custom.aws.region}"
+  profile: "${self:custom.app.name}" # used to lookup credentials in ~/.aws/credentials
 
 functions:
   hello:

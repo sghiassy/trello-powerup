@@ -1,8 +1,8 @@
 {
-  "name": "aws-nodejs-typescript",
+  "name": "trello-powerup",
   "version": "1.0.0",
-  "description": "Serverless webpack example using Typescript",
-  "main": "handler.js",
+  "description": "A simple SLS app for my trello board",
+  "main": "handler.ts",
   "scripts": {
     "deploy": "yarn sls deploy"
   },
@@ -15,7 +15,7 @@
     "typescript": "^2.5.2",
     "webpack": "^3.6.0"
   },
-  "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
+  "author": "Shaheen Ghiassy <shaheen.ghiassy@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "serverless": "1.26.1"
