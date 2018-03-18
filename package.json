@@ -9,6 +9,7 @@
   "devDependencies": {
     "@types/aws-lambda": "0.0.22",
     "@types/node": "^8.0.57",
+    "eslint": "^4.19.0",
     "eslint-config-typescript": "^1.0.2",
     "serverless-domain-manager": "^2.3.5",
     "serverless-webpack": "^4.4.0",
