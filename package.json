@@ -4,13 +4,14 @@
   "description": "A simple SLS app for my trello board",
   "main": "handler.ts",
   "scripts": {
-    "deploy": "yarn sls deploy -v"
+    "deploy": "npx sls deploy -v"
   },
   "devDependencies": {
     "@types/aws-lambda": "0.0.22",
     "@types/node": "^8.0.57",
     "eslint": "^4.19.0",
     "eslint-config-typescript": "^1.0.2",
+    "serverless": "^1.26.1",
     "serverless-domain-manager": "^2.3.5",
     "serverless-webpack": "^4.4.0",
     "ts-loader": "^2.3.7",
@@ -19,7 +20,5 @@
   },
   "author": "Shaheen Ghiassy <shaheen.ghiassy@gmail.com>",
   "license": "MIT",
-  "dependencies": {
-    "serverless": "1.26.1"
-  }
+  "dependencies": {}
 }
