@@ -19,3 +19,12 @@ functions:
       - http:
           method: get
           path: hello
+
+custom:
+  customDomain:
+    domainName: trello.shaheenghiassy.com
+    basePath: ''
+    certificateName: '*.shaheenghiassy.com'
+    stage: ${self:provider.stage}
+    createRoute53Record: true
+    endpointType: 'regional'
