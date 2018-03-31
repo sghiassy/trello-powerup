@@ -6,7 +6,8 @@
   "description": "A simple SLS app for my trello board",
   "main": "handler.ts",
   "scripts": {
-    "deploy": "npx sls deploy -v",
+    "deploy": "npx sls deploy function --function Hello -v",
+    "deploy:full": "npx sls deploy -v",
     "logs": "npx serverless logs -f hello",
     "test": "npx sls invoke local --function hello"
   },
