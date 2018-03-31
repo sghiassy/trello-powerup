@@ -16,9 +16,17 @@ export const hello: Handler = (
   context: Context,
   cb: Callback
 ) => {
-  rp(
-    `https://api.trello.com/1/member/me/boards?key=${CLIENT_KEY}&token=${OAUTH_TOKEN}`
-  )
+  rp({
+    uri: "https://api.trello.com/1/member/me/boards",
+    qs: {
+      key: CLIENT_KEY, // -> uri + '?access_token=xxxxx%20xxxxx'
+      token: OAUTH_TOKEN
+    },
+    headers: {
+      "User-Agent": "Request-Promise"
+    },
+    json: true // Automatically parses the JSON string in the response
+  })
     .then(function(htmlString) {
       cb(null, htmlString);
     })
