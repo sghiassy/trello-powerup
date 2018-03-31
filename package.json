@@ -1,10 +1,16 @@
 {
   "name": "trello-powerup",
   "version": "1.0.0",
+  "author": "Shaheen Ghiassy <shaheen.ghiassy@gmail.com>",
+  "license": "MIT",
   "description": "A simple SLS app for my trello board",
   "main": "handler.ts",
   "scripts": {
-    "deploy": "npx sls deploy -v"
+    "deploy": "npx sls deploy -v",
+    "test": "npx sls deploy function --function hello"
+  },
+  "dependencies": {
+    "superagent": "^3.8.2"
   },
   "devDependencies": {
     "@types/aws-lambda": "0.0.22",
@@ -17,8 +23,5 @@
     "ts-loader": "^2.3.7",
     "typescript": "^2.5.2",
     "webpack": "^3.6.0"
-  },
-  "author": "Shaheen Ghiassy <shaheen.ghiassy@gmail.com>",
-  "license": "MIT",
-  "dependencies": {}
+  }
 }
