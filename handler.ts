@@ -30,7 +30,7 @@ export const hello: Handler = (event: APIGatewayEvent, context: Context, cb: Cal
   })
     .then(function(res) {
       console.log('res', res)
-      cb(null, res);
+      cb(null, JSON.stringify(res));
     })
     .catch(function(err) {
       console.log('err', err)
