@@ -7,10 +7,12 @@
   "main": "handler.ts",
   "scripts": {
     "deploy": "npx sls deploy -v",
-    "test": "npx sls deploy function --function hello"
+    "logs": "npx serverless logs -f hello",
+    "test": "npx sls invoke local --function hello"
   },
   "dependencies": {
-    "superagent": "^3.8.2"
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
     "@types/aws-lambda": "0.0.22",
