@@ -11,11 +11,12 @@ let OAUTH_TOKEN =
 
 let rp = require("request-promise");
 
-export const hello: Handler = (
-  event: APIGatewayEvent,
-  context: Context,
-  cb: Callback
-) => {
+console.log('starting')
+
+export const hello: Handler = (event: APIGatewayEvent, context: Context, cb: Callback) => {
+  console.log('event', event)
+  console.log('context', context)
+
   rp({
     uri: "https://api.trello.com/1/member/me/boards",
     qs: {
@@ -27,10 +28,14 @@ export const hello: Handler = (
     },
     json: true // Automatically parses the JSON string in the response
   })
-    .then(function(htmlString) {
-      cb(null, htmlString);
+    .then(function(res) {
+      console.log('res', res)
+      cb(null, res);
     })
     .catch(function(err) {
+      console.log('err', err)
       cb(null, err);
     });
 };
+
+console.log('end')

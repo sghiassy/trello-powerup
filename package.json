@@ -9,7 +9,9 @@
     "deploy": "npx sls deploy function --function hello -v",
     "deploy:full": "npx sls deploy -v",
     "log": "yarn logs",
+    "log:t": "yarn logs:t",
     "logs": "npx serverless logs -f hello",
+    "logs:t": "npx serverless logs -f hello -t",
     "test": "npx sls invoke local --function hello"
   },
   "dependencies": {
