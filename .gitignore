@@ -34,7 +34,6 @@ yarn-error.log
 
 ##### Code Editor Settings
 .idea/
-.vscode/
 
 ##### Android
 *.iml
