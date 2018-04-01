@@ -12,7 +12,7 @@
     "log:t": "yarn logs:t",
     "logs": "npx serverless logs -f hello",
     "logs:t": "npx serverless logs -f hello -t",
-    "test": "npx sls invoke local --function hello"
+    "test": "STAGE=DEV npx sls invoke local --function hello"
   },
   "dependencies": {
     "request": "^2.85.0",

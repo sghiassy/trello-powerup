@@ -9,8 +9,15 @@ let winstonPapertrail = new winston.transports.Papertrail({
   port: 36550
 })
 
+let winstonConsole = new winston.transports.Console({
+  level: 'debug'
+})
+
 var logger = new winston.Logger({
-  transports: [winstonPapertrail]
+  transports: [
+    winstonConsole,
+    winstonPapertrail
+  ]
 })
 
 winstonPapertrail.on("error", function(err) {
@@ -25,58 +32,73 @@ let trello = new Trello(CLIENT_KEY, OAUTH_TOKEN)
 export const hello: Handler = (event: APIGatewayEvent, context: Context, cb: Callback) => {
   let boardsPromise = trello.getBoards("me")
 
+
+
   logger.info("hello function called")
   logger.info("event", event)
   logger.info("context", context)
 
-  boardsPromise
-    .then(res => {
+  boardsPromise.then(function(boardsRes) {
+
+      logger.debug('boards api response', boardsRes)
       // pull out boards info
-      var info = res.map(board => {
+      var info = boardsRes.map(board => {
         let boardId = board.id
         return { boardId: { name: board.name, id: boardId } }
       })
 
-      let batchCardsUrl = res.map(board => `/boards/${board.id}/cards`).join(",")
+      let batchCardsUrl = boardsRes.map(board => `/boards/${board.id}/cards`).join(",")
 
       client({
         uri: "https://api.trello.com/1/batch",
         json: true, // Automatically parses the JSON string in the response
         qs: { key: CLIENT_KEY, token: OAUTH_TOKEN, urls: batchCardsUrl }
       })
-        .then(res => {
-          for (let batchCount in res) {
-            let batch = res[batchCount]
+        .then(function(batchRes) {
+          logger.debug('recieved response from trello batch api')
+          logger.debug('info before', info)
+
+          for (let batchCount in batchRes) {
+            let batch = batchRes[batchCount]
+            logger.debug('batch', batch)
 
             for (let cardCount in batch) {
               let cards = batch[cardCount]
 
+              logger.debug('cards', cards)
+              if(cards == undefined || cards.count <= 0) { continue }
+
               for (let cardCount in cards) {
                 let card = cards[cardCount]
+                logger.debug('card', card)
 
-                if (info[card.boardId].cards == undefined) {
-                  info[card.boardId].cards = []
+                if (info[card.idBoard].cards == undefined) {
+                  info[card.idBoard].cards = []
                 }
 
                 let cardId = card.id
                 let cardName = card.name
-                info[card.boardId].cards.push({ cardId: { name: cardName } })
+                info[card.idBoard].cards.push({ cardId: { name: cardName } })
                 //  logger.info('card', card.id, card.name)
               }
             }
           }
 
-          logger.info("info", info)
-          cb(null, { statusCode: 200, body: JSON.stringify({ 'info': info }) })
-        })
-        .catch(err => {
+          logger.debug('info after', info)
+
           cb(null, {
             statusCode: 200,
-            body: JSON.stringify({ 'trelloBatchError': err })
+            body: JSON.stringify({ 'info': info })
           })
         })
+        // .catch(function(err) {
+        //   cb(null, {
+        //     statusCode: 200,
+        //     body: JSON.stringify({ 'trelloBatchError': err })
+        //   })
+        // })
     })
-    .catch(err => {
+    .catch(function(err) {
       cb(null, {
         statusCode: 200,
         body: JSON.stringify({ 'trelloBoardsError': err })
