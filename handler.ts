@@ -11,7 +11,7 @@ export const hello: Handler = (event: APIGatewayEvent, context: Context, cb: Cal
 
   boards.then((res) => {
     let info = res.map((board) => {return {name:board.name, id: board.id}})
-    cb(null, info)
+    cb(null, {body:info})
   })
   .catch((err) => {
     cb(null, { statusCode: 200, body: JSON.stringify({trelloError: err })})
