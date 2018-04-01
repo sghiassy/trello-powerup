@@ -9,12 +9,12 @@ let winstonPapertrail = new winston.transports.Papertrail({
   port: 36550
 })
 
-winstonPapertrail.on("error", function(err) {
-  // Handle, report, or silently ignore connection errors and failures
-})
-
 var logger = new winston.Logger({
   transports: [winstonPapertrail]
+})
+
+winstonPapertrail.on("error", function(err) {
+  logger && logger.error(err);
 })
 
 let CLIENT_KEY = "1b37c7b593ae2d18fd7bc4e4f91c6b11"
@@ -67,19 +67,19 @@ export const hello: Handler = (event: APIGatewayEvent, context: Context, cb: Cal
           }
 
           logger.info("info", info)
-          cb(null, { statusCode: 200, body: JSON.stringify({ info: info }) })
+          cb(null, { statusCode: 200, body: JSON.stringify({ 'info': info }) })
         })
         .catch(err => {
           cb(null, {
             statusCode: 200,
-            body: JSON.stringify({ trelloBatchError: err })
+            body: JSON.stringify({ 'trelloBatchError': err })
           })
         })
     })
     .catch(err => {
       cb(null, {
         statusCode: 200,
-        body: JSON.stringify({ trelloBoardsError: err })
+        body: JSON.stringify({ 'trelloBoardsError': err })
       })
     })
 }
