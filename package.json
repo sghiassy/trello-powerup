@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "request": "^2.85.0",
-    "request-promise": "^4.2.2"
+    "request-promise": "^4.2.2",
+    "trello": "^0.8.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "0.0.22",
