@@ -29,25 +29,38 @@ let OAUTH_TOKEN = "d43c620a08f43da2e859ff67b4490b2fbc72921eade05714b9b1de59dfddc
 let client = require("request-promise")
 let trello = new Trello(CLIENT_KEY, OAUTH_TOKEN)
 
+
+
 export const hello: Handler = (event: APIGatewayEvent, context: Context, cb: Callback) => {
   let boardsPromise = trello.getBoards("me")
-
-
 
   logger.info("hello function called")
   logger.info("event", event)
   logger.info("context", context)
 
+  let awsResponse = function(response, status = 200) {
+    cb(null, {
+      statusCode: status,
+      body: JSON.stringify({ 'body': response })
+    })
+  }
+
+  var info = {}
+
   boardsPromise.then(function(boardsRes) {
 
       logger.debug('boards api response', boardsRes)
       // pull out boards info
-      var info = boardsRes.map(board => {
-        let boardId = board.id
-        return { boardId: { name: board.name, id: boardId } }
+
+      boardsRes.forEach(function(board) {
+        info[board.id] = {name: board.name, id: board.id, cards: {}}
       })
 
+      logger.info('info after processing', JSON.stringify(info))
+
       let batchCardsUrl = boardsRes.map(board => `/boards/${board.id}/cards`).join(",")
+
+
 
       client({
         uri: "https://api.trello.com/1/batch",
@@ -72,24 +85,16 @@ export const hello: Handler = (event: APIGatewayEvent, context: Context, cb: Cal
                 let card = cards[cardCount]
                 logger.debug('card', card)
 
-                if (info[card.idBoard].cards == undefined) {
-                  info[card.idBoard].cards = []
-                }
-
-                let cardId = card.id
-                let cardName = card.name
-                info[card.idBoard].cards.push({ cardId: { name: cardName } })
+                info[card.idBoard].cards[card.id] = {name: card.name}
                 //  logger.info('card', card.id, card.name)
               }
             }
           }
 
           logger.debug('info after', info)
-
-          cb(null, {
-            statusCode: 200,
-            body: JSON.stringify({ 'info': info })
-          })
+        })
+        .finally(function() {
+          awsResponse(info)
         })
         // .catch(function(err) {
         //   cb(null, {
@@ -99,9 +104,6 @@ export const hello: Handler = (event: APIGatewayEvent, context: Context, cb: Cal
         // })
     })
     .catch(function(err) {
-      cb(null, {
-        statusCode: 200,
-        body: JSON.stringify({ 'trelloBoardsError': err })
-      })
+      awsResponse(err)
     })
 }
